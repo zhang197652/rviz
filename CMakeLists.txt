@@ -105,12 +105,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 option(UseQt5 "UseQt5" ON)
 if (UseQt5)
-  find_package(Qt5 REQUIRED COMPONENTS Core Widgets OpenGL)
+  find_package(Qt5 REQUIRED COMPONENTS Core Widgets Qml Quick OpenGL)
   # set variable names already used with Qt4
-  set(QT_LIBRARIES Qt5::Widgets)
+  set(QT_LIBRARIES Qt5::Widgets Qt5::Quick)
   set(QTVERSION ${Qt5Widgets_VERSION})
 else()
-  find_package(Qt4 REQUIRED COMPONENTS QtCore QtGui QtOpenGL)
+  find_package(Qt4 REQUIRED COMPONENTS QtCore QtGui QtQml QtQuick QtOpenGL)
   include(${QT_USE_FILE})
 endif()
 add_definitions(-DQT_NO_KEYWORDS)
@@ -213,6 +213,8 @@ catkin_package(
 include_directories(SYSTEM
   ${EIGEN3_INCLUDE_DIRS}
   ${OGRE_OV_INCLUDE_DIRS}
+  ${OGRE_OV_INCLUDE_DIRS}/RenderSystems
+  ${OGRE_OV_INCLUDE_DIRS}/RenderSystems/GL
   ${OPENGL_INCLUDE_DIR}
   ${PYTHON_INCLUDE_PATH}
   ${TinyXML_INCLUDE_DIRS}

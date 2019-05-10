@@ -124,6 +124,12 @@ add_library(${PROJECT_NAME}
   tool_properties_panel.cpp
   yaml_config_reader.cpp
   yaml_config_writer.cpp
+  debug.cpp
+  ogrecamerawrapper.cpp
+  ogrecamera.cpp
+  ogreengine.cpp
+  ogrenode.cpp
+  ogreitem.cpp
 
   ${ENV_CONFIG_FILE}
 )
