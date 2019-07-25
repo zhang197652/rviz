@@ -66,6 +66,7 @@ QtOgreRenderWindow::QtOgreRenderWindow( QWidget* parent )
   render_window_->setVisible(true);
   render_window_->setAutoUpdated(true);
 
+  //viewport:显示栅格和地图的视窗
   viewport_ = render_window_->addViewport( camera_ );
   viewport_->setOverlaysEnabled( overlays_enabled_ );
   viewport_->setBackgroundColour( background_color_ );

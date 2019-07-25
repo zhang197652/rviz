@@ -143,6 +143,7 @@ VisualizationFrame::VisualizationFrame( QWidget* parent )
   QToolButton* reset_button = new QToolButton( );
   reset_button->setText( "Reset" );
   reset_button->setContentsMargins(0,0,0,0);
+  //添加永久性部件，永久意味着它不能被临时消息（showMessage函数）掩盖，位于最右端，stretch伸缩性为0  
   statusBar()->addPermanentWidget( reset_button, 0 );
   connect( reset_button, SIGNAL( clicked( bool )), this, SLOT( reset() ));
 
@@ -248,8 +249,10 @@ void VisualizationFrame::setSplashPath( const QString& splash_path )
 
 void VisualizationFrame::initialize(const QString& display_config_file )
 {
+	//获取默认的configs文件路径和最近使用的configs记录文件路径
   initConfigs();
 
+	//加载最近使用的configs
   loadPersistentSettings();
 
   QIcon app_icon( QString::fromStdString( (fs::path(package_path_) / "icons/package.png").BOOST_FILE_STRING() ) );
@@ -282,8 +285,10 @@ void VisualizationFrame::initialize(const QString& display_config_file )
   central_layout->setSpacing(0);
   central_layout->setMargin(0);
 
+  //创建中间OGRE显示区域
   render_panel_ = new RenderPanel( central_widget );
 
+  //左边DockWidget显示/隐藏按钮
   hide_left_dock_button_ = new QToolButton();
   hide_left_dock_button_->setContentsMargins(0,0,0,0);
   hide_left_dock_button_->setArrowType( Qt::LeftArrow );
@@ -294,6 +299,7 @@ void VisualizationFrame::initialize(const QString& display_config_file )
 
   connect(hide_left_dock_button_, SIGNAL(toggled(bool)), this, SLOT(hideLeftDock(bool)));
 
+  //右边DockWidget显示/隐藏按钮
   hide_right_dock_button_ = new QToolButton();
   hide_right_dock_button_->setContentsMargins(0,0,0,0);
   hide_right_dock_button_->setArrowType( Qt::RightArrow );
@@ -328,17 +334,21 @@ void VisualizationFrame::initialize(const QString& display_config_file )
   // Periodically process events for the splash screen.
   if (app_) app_->processEvents();
 
+  //可视化管理器!!!在调用librviz库时，主要用到VisualizationManager、
+  //RenderPanel和各种Display，主界面自己实现
   manager_ = new VisualizationManager( render_panel_, this );
   manager_->setHelpPath( help_path_ );
 
   // Periodically process events for the splash screen.
   if (app_) app_->processEvents();
 
+  //渲染视窗初始化
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
 
   // Periodically process events for the splash screen.
   if (app_) app_->processEvents();
 
+  //ToolManager干嘛的？？？
   ToolManager* tool_man = manager_->getToolManager();
 
   connect( manager_, SIGNAL( configChanged() ), this, SLOT( setDisplayConfigModified() ));
@@ -347,11 +357,14 @@ void VisualizationFrame::initialize(const QString& display_config_file )
   connect( tool_man, SIGNAL( toolRefreshed( Tool* )), this, SLOT( refreshTool( Tool* )));
   connect( tool_man, SIGNAL( toolChanged( Tool* )), this, SLOT( indicateToolIsCurrent( Tool* )));
 
+  //可视化管理器初始化
   manager_->initialize();
 
   // Periodically process events for the splash screen.
   if (app_) app_->processEvents();
 
+  //加载在VisualizationFrame::initConfigs()中获取的显示配置文件，
+  //在调用librviz库时，自己加载需要的显示部件
   if( display_config_file != "" )
   {
     loadDisplayConfig( display_config_file );
@@ -377,22 +390,29 @@ void VisualizationFrame::initialize(const QString& display_config_file )
 
 void VisualizationFrame::initConfigs()
 {
+  //用户的根目录
   home_dir_ = QDir::toNativeSeparators( QDir::homePath() ).toStdString();
 
   config_dir_ = (fs::path(home_dir_) / ".rviz").BOOST_FILE_STRING();
+  //最近使用的configs
   persistent_settings_file_ = (fs::path(config_dir_) / "persistent_settings").BOOST_FILE_STRING();
   default_display_config_file_ = (fs::path(config_dir_) / "default." CONFIG_EXTENSION).BOOST_FILE_STRING();
 
-  if( fs::is_regular_file( config_dir_ ))
+  //判断config_dir_是普通文件还是目录
+  if( fs::is_regular_file( config_dir_ ))//普通文件
   {
     ROS_ERROR("Moving file [%s] out of the way to recreate it as a directory.", config_dir_.c_str());
     std::string backup_file = config_dir_ + ".bak";
 
+	//将文件config_dir_重新命名
     fs::rename(config_dir_, backup_file);
+	
+	//重新创建目录config_dir_
     fs::create_directory(config_dir_);
   }
-  else if (!fs::exists(config_dir_))
+  else if (!fs::exists(config_dir_))//判断目录config_dir_是否存在
   {
+    //目录onfig_dir_不存在，创建之
     fs::create_directory(config_dir_);
   }
 }
@@ -408,10 +428,13 @@ void VisualizationFrame::loadPersistentSettings()
     if( config.mapGetString( "Last Config Dir", &last_config_dir ) &&
         config.mapGetString( "Last Image Dir", &last_image_dir ))
     {
+		//最后的configs目录
       last_config_dir_ = last_config_dir.toStdString();
+		//最后的image目录
       last_image_dir_ = last_image_dir.toStdString();
     }
 
+	//最近使用的configs
     Config recent_configs_list = config.mapGetChild( "Recent Configs" );
     recent_configs_.clear();
     int num_recent = recent_configs_list.listLength();
@@ -819,9 +842,13 @@ void VisualizationFrame::save( Config config )
 
 void VisualizationFrame::load( const Config& config )
 {
+  //加载可视化管理器相关
   manager_->load( config.mapGetChild( "Visualization Manager" ));
+  //加载各种面板视窗
   loadPanels( config.mapGetChild( "Panels" ));
+  //加载窗口左边
   loadWindowGeometry( config.mapGetChild( "Window Geometry" ));
+  //加载工具栏
   configureToolbars( config.mapGetChild( "Toolbars" ));
 }
 

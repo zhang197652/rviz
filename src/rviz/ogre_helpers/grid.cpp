@@ -56,6 +56,7 @@ Grid::Grid( Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node, Sty
   std::stringstream ss;
   ss << "Grid" << gridCount++;
 
+  //创建ManualObject
   manual_object_ = scene_manager_->createManualObject( ss.str() );
 
   if ( !parent_node )
@@ -158,6 +159,8 @@ void Grid::create()
   {
     manual_object_->estimateVertexCount( cell_count_ * 4 * (height_ + 1) + ((cell_count_ + 1) * (cell_count_ + 1) * height_));
     manual_object_->begin( material_->getName(), Ogre::RenderOperation::OT_LINE_LIST );
+	//创建材质
+	//使用ogre的自带材质
   }
 
   for (uint32_t h = 0; h <= height_; ++h)
