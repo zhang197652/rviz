@@ -267,6 +267,7 @@ bool VisualizerApp::init( int argc, char** argv )
       RenderSystem::forceNoStereo();
     }
 
+	//创建主窗口
     frame_ = new VisualizationFrame();
     frame_->setApp( this->app_ );
     if( help_path != "" )
