@@ -88,6 +88,7 @@ void PropertyTreeWithHelp::save( Config config ) const
 
 void PropertyTreeWithHelp::load( const Config& config )
 {
+  //加载Display
   property_tree_->load( config.mapGetChild( "Property Tree Widget" ));
 
   int tree_height;

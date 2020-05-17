@@ -234,6 +234,7 @@ void DisplaysPanel::save( Config config ) const
 void DisplaysPanel::load( const Config& config )
 {
   Panel::load( config );
+  //加载Display
   tree_with_help_->load( config );
 }
 
