@@ -59,7 +59,7 @@ protected:
 #endif
 
   RenderSystem* render_system_;
-  Ogre::RenderWindow* render_window_;
+  Ogre::RenderWindow* render_window_;//渲染窗口，绑定现有的GUI窗口（QWidget）
 
   QFrame* renderFrame;
 };

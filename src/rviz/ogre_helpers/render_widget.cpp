@@ -86,6 +86,7 @@ RenderWidget::RenderWidget( RenderSystem* render_system, QWidget *parent )
   QWindow* window = windowHandle();
   double pixel_ratio = window ? window->devicePixelRatio() : 1.0;
 #endif
+  //创建渲染窗口，绑定现有的GUI窗口
   render_window_ = render_system_->makeRenderWindow(win_id, width(), height(), pixel_ratio);
 }
 

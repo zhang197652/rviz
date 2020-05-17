@@ -397,6 +397,7 @@ Ogre::RenderWindow* RenderSystem::makeRenderWindow(
   if (!force_no_stereo_)
   {
     params["stereoMode"] = "Frame Sequential";
+	//创建渲染窗口，绑定现有的GUI窗口
     window = tryMakeRenderWindow( stream.str(), width, height, &params, 100);
     params.erase("stereoMode");
 
@@ -420,6 +421,7 @@ Ogre::RenderWindow* RenderSystem::makeRenderWindow(
 
   if ( window == NULL )
   {
+	//创建渲染窗口，绑定现有的GUI窗口
     window = tryMakeRenderWindow( stream.str(), width, height, &params, 100);
   }
 
@@ -461,6 +463,7 @@ Ogre::RenderWindow* RenderSystem::tryMakeRenderWindow(
   {
     try
     {
+	  //创建渲染窗口，绑定现有的GUI窗口
       window = ogre_root_->createRenderWindow( name, width, height, false, params );
 
       // If the driver bug happened, tell Ogre we are done with that
