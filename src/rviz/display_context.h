@@ -78,6 +78,7 @@ class DisplayContext: public QObject
 Q_OBJECT
 public:
   /** @brief Returns the Ogre::SceneManager used for the main RenderPanel. */
+  //DisplayContext::getSceneManager()获取Ogre::SceneManager，VisualizationManager是DisplayContext的子类
   virtual Ogre::SceneManager* getSceneManager() const = 0;
 
   /** @brief Return the window manager, if any. */

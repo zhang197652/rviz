@@ -343,6 +343,7 @@ void VisualizationFrame::initialize(const QString& display_config_file )
   if (app_) app_->processEvents();
 
   //渲染视窗初始化
+  //DisplayContext::getSceneManager()获取Ogre::SceneManager，VisualizationManager是DisplayContext的子类
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
 
   // Periodically process events for the splash screen.

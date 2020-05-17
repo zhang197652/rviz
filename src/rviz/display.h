@@ -68,6 +68,7 @@ public:
   virtual ~Display();
 
   /** @brief Main initialization, called after constructor, before load() or setEnabled(). */
+  //DisplayContext::getSceneManager()获取Ogre::SceneManager，VisualizationManager是DisplayContext的子类
   void initialize( DisplayContext* context );
 
   /** @brief Return data appropriate for the given column (0 or 1) and

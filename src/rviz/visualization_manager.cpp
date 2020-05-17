@@ -438,6 +438,7 @@ void VisualizationManager::resetTime()
 void VisualizationManager::addDisplay( Display* display, bool enabled )
 {
   root_display_group_->addDisplay( display );
+  //DisplayContext::getSceneManager()获取Ogre::SceneManager，VisualizationManager是DisplayContext的子类
   display->initialize( this );
   display->setEnabled( enabled );
 }

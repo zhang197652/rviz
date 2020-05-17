@@ -83,6 +83,7 @@ Display::~Display()
 
 void Display::initialize( DisplayContext* context )
 {
+  //DisplayContext::getSceneManager()获取Ogre::SceneManager，VisualizationManager是DisplayContext的子类
   context_ = context;
   scene_manager_ = context_->getSceneManager();
   scene_node_ = scene_manager_->getRootSceneNode()->createChildSceneNode();
