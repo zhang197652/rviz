@@ -527,6 +527,7 @@ void VisualizationManager::updateDefaultLightVisible()
   directional_light_->setVisible(default_light_enabled_property_->getBool());
 }
 
+//鼠标事件处理
 void VisualizationManager::handleMouseEvent( const ViewportMouseEvent& vme )
 {
   //process pending mouse events

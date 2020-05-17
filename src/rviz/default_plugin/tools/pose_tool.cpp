@@ -72,6 +72,7 @@ void PoseTool::deactivate()
   arrow_->getSceneNode()->setVisible( false );
 }
 
+//鼠标事件处理
 int PoseTool::processMouseEvent( ViewportMouseEvent& event )
 {
   int flags = 0;

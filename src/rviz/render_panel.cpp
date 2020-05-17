@@ -131,6 +131,7 @@ void RenderPanel::leaveEvent ( QEvent * event )
   }
 }
 
+//鼠标事件处理
 void RenderPanel::onRenderWindowMouseEvents( QMouseEvent* event )
 {
   int last_x = mouse_x_;
