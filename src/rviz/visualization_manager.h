@@ -267,6 +267,7 @@ public:
    * \brief Queues a render.  Multiple calls before a render happens will only cause a single render.
    * \note This function can be called from any thread.
    */
+  //数据改变，渲染窗口
   void queueRender();
 
   /**
